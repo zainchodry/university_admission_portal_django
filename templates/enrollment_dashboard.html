@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Enrollment Dashboard{% endblock title %}
+
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #6f42c1, #007bff);
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .enrollment-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 25px;
+  }
+
+  li {
+    background: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #e2e2e2;
+    transition: 0.3s ease;
+  }
+
+  li:hover {
+    background: #eaf1ff;
+    transform: translateY(-2px);
+  }
+
+  p {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 25px;
+  }
+
+  .btn-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-primary, .btn-secondary {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: 500;
+    margin: 5px;
+    transition: 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #0056b3;
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div class="enrollment-container">
+  <h2>Enrollment Dashboard</h2>
+
+  {% if enrollments %}
+    <ul>
+      {% for e in enrollments %}
+        <li><strong>{{ e.program.name }}</strong> — Enrolled on {{ e.enrollment_date }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You are not enrolled in any program yet.</p>
+  {% endif %}
+
+  <div class="btn-container">
+    <a href="{% url 'register_course' %}" class="btn btn-primary">Register a Course</a>
+    <a href="{% url 'view_results' %}" class="btn btn-secondary">View Results</a>
+  </div>
+</div>
+
+{% endblock content %}

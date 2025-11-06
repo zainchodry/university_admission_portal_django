@@ -49,21 +49,29 @@ class ProfileForm(forms.ModelForm):
 
 
 
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label = 'Email', widget = forms.EmailInput(attrs={'class':'form-control'}))
-    password = forms.CharField(label = 'Password', widget = forms.PasswordInput(attrs={'class':'form-control'}))
+    username = forms.CharField(
+        label='Email',
+        widget=forms.EmailInput(attrs={'class': 'form-control'})
+    )
+    password = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
 
     def clean(self):
         email = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
 
-        try:
-            user = User.objects.get(email=email)
-            self.cleaned_data['username'] = user.username
-        except User.DoesNotExist:
+        user = User.objects.filter(email=email).first()
+        if not user:
             raise forms.ValidationError("Invalid email or password.")
 
-        return super().clean()
-    
+        # Replace username with the real username for authentication
+        self.cleaned_data['username'] = user.username
 
-    
+        return super().clean()

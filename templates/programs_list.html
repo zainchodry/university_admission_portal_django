@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Programs - University Admission{% endblock title %}
+
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #007bff, #6f42c1);
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .programs-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  thead {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  tbody tr:hover {
+    background-color: #e9f2ff;
+    transition: 0.3s ease;
+  }
+
+  .btn-primary {
+    border-radius: 8px;
+    padding: 6px 15px;
+    transition: 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+  }
+</style>
+
+<div class="programs-container">
+    <h2>Available Programs</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Program</th>
+                <th>Department</th>
+                <th>Duration</th>
+                <th>Eligibility</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in programs %}
+            <tr>
+                <td>{{ p.name }}</td>
+                <td>{{ p.department.name }}</td>
+                <td>{{ p.duration_years }} years</td>
+                <td>{{ p.eligibility }}</td>
+                <td><a href="{% url 'apply_for_program' p.id %}" class="btn btn-sm btn-primary">Apply</a></td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5" class="no-data">No programs available.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

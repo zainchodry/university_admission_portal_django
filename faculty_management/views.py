@@ -5,18 +5,18 @@ from .models import FacultyProfile, FacultyCourseAssignment, TeachingSchedule
 from .forms import FacultyProfileForm, FacultyCourseAssignmentForm, TeachingScheduleForm
 
 
-# 🧑‍🎓 Faculty Dashboard
+
 @login_required
 def faculty_dashboard(request):
     profile = FacultyProfile.objects.filter(user=request.user).first()
     assignments = FacultyCourseAssignment.objects.filter(faculty=profile)
-    return render(request, 'faculty_management/faculty_dashboard.html', {
+    return render(request, 'faculty_dashboard.html', {
         'profile': profile,
         'assignments': assignments
     })
 
 
-# 🧑‍🏫 Create/Update Faculty Profile
+
 @login_required
 def create_faculty_profile(request):
     if request.method == 'POST':
@@ -29,10 +29,9 @@ def create_faculty_profile(request):
             return redirect('faculty_dashboard')
     else:
         form = FacultyProfileForm()
-    return render(request, 'faculty_management/faculty_profile_form.html', {'form': form})
+    return render(request, 'faculty_profile_form.html', {'form': form})
 
 
-# 📚 Assign Courses to Faculty (Admin only)
 @login_required
 def assign_course(request):
     if not request.user.is_staff:
@@ -47,10 +46,9 @@ def assign_course(request):
             return redirect('faculty_dashboard')
     else:
         form = FacultyCourseAssignmentForm()
-    return render(request, 'faculty_management/assign_course.html', {'form': form})
+    return render(request, 'assign_course.html', {'form': form})
 
 
-# 🗓️ Manage Teaching Schedule
 @login_required
 def manage_schedule(request, assignment_id):
     assignment = get_object_or_404(FacultyCourseAssignment, id=assignment_id)
@@ -67,7 +65,7 @@ def manage_schedule(request, assignment_id):
     else:
         form = TeachingScheduleForm()
 
-    return render(request, 'faculty_management/manage_schedule.html', {
+    return render(request, 'manage_schedule.html', {
         'assignment': assignment,
         'form': form,
         'schedules': schedules

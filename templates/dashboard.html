@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - University Admission{% endblock title %}
+
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #6f42c1, #007bff);
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .dashboard-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    text-align: center;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .profile-pic {
+    border-radius: 50%;
+    border: 4px solid #007bff;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  .info p {
+    font-size: 1rem;
+    color: #444;
+    margin-bottom: 8px;
+  }
+
+  .info strong {
+    color: #000;
+  }
+
+  .btn-logout {
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px 25px;
+    background-color: #dc3545;
+    border: none;
+    font-weight: 500;
+    transition: 0.3s ease;
+  }
+
+  .btn-logout:hover {
+    background-color: #b52a35;
+    transform: translateY(-1px);
+  }
+</style>
+
+<div class="dashboard-container">
+    <h2>Welcome, {{ profile.user.username }}</h2>
+    {% if profile.profile_picture %}
+      <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-pic">
+    {% else %}
+      <img src="{% static 'images/default-avatar.png' %}" alt="Default Avatar" class="profile-pic">
+    {% endif %}
+    
+    <div class="info">
+      <p><strong>Email:</strong> {{ profile.user.email }}</p>
+      <p><strong>Phone:</strong> {{ profile.phone }}</p>
+      <p><strong>Address:</strong> {{ profile.address }}</p>
+    </div>
+
+    <a href="{% url 'logout' %}" class="btn btn-danger btn-logout">Logout</a>
+</div>
+
+{% endblock content %}

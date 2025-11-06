@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Applications{% endblock title %}
+
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #007bff, #6f42c1);
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .applications-container {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 80px auto;
+    padding: 40px 30px;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 600;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  thead {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  th, td {
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  tbody tr:hover {
+    background-color: #eef4ff;
+    transition: 0.3s ease;
+  }
+
+  .badge {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .badge.bg-success {
+    background-color: #28a745 !important;
+  }
+
+  .badge.bg-danger {
+    background-color: #dc3545 !important;
+  }
+
+  .badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #333 !important;
+  }
+
+  .no-data {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  .back-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .back-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="applications-container">
+  <h2>My Applications</h2>
+  <table class="table table-striped mt-3">
+    <thead>
+      <tr>
+        <th>Program</th>
+        <th>Status</th>
+        <th>Applied Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in applications %}
+      <tr>
+        <td>{{ app.program.name }}</td>
+        <td>
+          {% if app.status == 'approved' %}
+            <span class="badge bg-success">Approved</span>
+          {% elif app.status == 'rejected' %}
+            <span class="badge bg-danger">Rejected</span>
+          {% else %}
+            <span class="badge bg-warning text-dark">Pending</span>
+          {% endif %}
+        </td>
+        <td>{{ app.applied_date }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3" class="no-data">You haven’t applied for any program yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="back-link">
+    <p><a href="{% url 'programs_list' %}">&larr; Back to Programs</a></p>
+  </div>
+</div>
+
+{% endblock content %}
